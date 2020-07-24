@@ -1,3 +1,8 @@
-# todolist-tutorial
-Repo for the 'easy way to learn PHP'
-https://medium.com/@mayomi1/easy-way-to-php-todolist-app-crud-e1284265bb27
+# startup
+
+```
+$cd todo/
+$php -S localhost:8000
+```
+
+open localhost:8000/index.php in browser
