@@ -7,6 +7,9 @@
  */
 
 require_once 'db_connect.php';//bring the database connection file in
+require_once("class.php");
+session_start();
+
 if(isset($_POST['submit'])) {
     $title = $_POST['todoTitle'];// grap what was filled in title field
     $description = $_POST['todoDescription']; //grap what was filled in description field
@@ -31,17 +34,17 @@ if(isset($_POST['submit'])) {
         $descriptionErrorMsg = "Description cannot be empty";
     }
 
-    // connect to database
-    db();
-    global $link;
-    $query = "INSERT INTO todo(todoTitle, todoDescription, date) VALUES ('$title', '$description', now() )";
-    $insertTodo = mysqli_query($link, $query);
-    if($insertTodo){
-        echo "You added a new todo";
-    }else{
-        echo mysqli_error($link);
+    global $entities;
+    if (!isset($entities)) {
+        $entities = array();
     }
 
+    $entity = new Entity();
+    $entity->setId($title);
+    $entity->setTitle($description);
+    $entity->setDate('2020-07-20');
+    array_push($_SESSION['entities'], $entity);
+    echo "You added a new todo";
 }
 ?>
 
@@ -62,4 +65,3 @@ if(isset($_POST['submit'])) {
 </form>
 </body>
 </html>
-
