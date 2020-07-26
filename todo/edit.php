@@ -1,47 +1,60 @@
 <?php
 
-require_once 'db_connect.php';
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    
-    if(mysqli_num_rows($result)==1){
-        $row=mysqli_fetch_array($result);
-        if($row){
-            $title = $row['todoTitle'];
-            $description = $row['todoDescription'];
+require_once("entity.php");
+session_start();
 
-            echo "
-                <h2>Edit Todo</h2>
-                
+?>
+
+<html>
+<head>
+    <title>Edit Todo list</title>
+</head>
+<body>
+<button type="submit"><a href="index.php">View all Todo</a></button>
+</body>
+</html>
+
+<?php
+
+if(isset($_GET['id'])){
+    $id = intval($_GET['id']);
+
+    $found = False;
+    foreach($_SESSION['entities'] as $index => $entity) {
+        if ($id === $entity->getId()) {
+            $found = True;
+            break;
+        }
+    }
+
+    if ($found) {
+        echo "
+            <h2>Edit Todo</h2>    
             <form action='edit.php?id=$id' method='post'>
             <p>Title</p>
-             <input type='text' name='title' value='$title'>
-             <p>Description</p>
-             <input type='text' name='description' value='$description'>
-             <br>
-             <input type='submit' name='submit' value='edit'>
+            <input type='text' name='title' value='$title'>
+            <br>
+            <input type='submit' name='submit' value='edit'>
             </form>
-            ";
-        }
-    }else{
+        ";
+    } else {
         echo "no todo";
     }
 
-
     if(isset($_POST['submit'])){
         $title = $_POST['title'];
-        $description = $_POST['description'];
-        db();
-        $query = "UPDATE todo SET todoTitle = '$title', todoDescription = '$description'  WHERE id = '$id'";
-        $insertEdited = mysqli_query($link, $query);
-        if($insertEdited){
-            echo "successfully updated";
+        $updated = False;
+        foreach($_SESSION['entities'] as $index => $entity) {
+            if ($id === $entity->getId()) {
+                $_SESSION['entities'][$index]->setTitle($title);
+                $updated = True;
+            }
         }
-        else{
-            echo mysqli_error($link);
+        if($updated){
+            echo "successfully updated";
+        } else{
+            echo "cannot update title";
         }
     }
-
-
 }
 

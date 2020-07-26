@@ -20,7 +20,6 @@ if (!isset($_SESSION['entities'])) {
     $_SESSION['entities'] = array();
 }
 
-// var_dump($_SESSION['entities']);
 
 foreach($_SESSION['entities'] as $entity) {
     $id = $entity->getId();
