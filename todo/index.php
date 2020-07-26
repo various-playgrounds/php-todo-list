@@ -1,6 +1,6 @@
 <?php
-require_once("db_connect.php");
-require_once("class.php");
+
+require_once("entity.php");
 session_start();
 ?>
 

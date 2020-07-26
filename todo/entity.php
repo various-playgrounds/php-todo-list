@@ -32,4 +32,9 @@ class Entity {
   }
 }
 
+global $id;
+if (!isset($id)) {
+    $id = 1;
+}
+
 ?>

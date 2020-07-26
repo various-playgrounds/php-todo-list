@@ -1,18 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mayomi
- * Date: 9/11/17
- * Time: 1:28 PM
- */
-require_once "db_connect.php";
+require_once("entity.php");
+session_start();
+
 if(isset($_GET['id'])){
-    $id = $_GET['id'];
-    db();
-    global $link;
-    $query = "DELETE FROM todo WHERE id = '$id'";
-    $delete = mysqli_query($link, $query);
-    if($delete){
-        echo 'Todo successfully deleted';
+    $id = intval($_GET['id']);
+    foreach($_SESSION['entities'] as $index => $entity) {
+    	if ($id === $entity->getId()) {
+
+    		unset($_SESSION['entities'][$index]);
+    		
+    		break;
+    	}
     }
+    echo 'Todo successfully deleted';
 }

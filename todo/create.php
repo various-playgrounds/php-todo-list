@@ -1,18 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mayomi
- * Date: 9/3/17
- * Time: 9:40 AM
- */
 
-require_once 'db_connect.php';//bring the database connection file in
-require_once("class.php");
+require_once("entity.php");
 session_start();
 
 if(isset($_POST['submit'])) {
     $title = $_POST['todoTitle'];// grap what was filled in title field
-    $description = $_POST['todoDescription']; //grap what was filled in description field
 
     // check strings
     function check($string){
@@ -28,11 +20,6 @@ if(isset($_POST['submit'])) {
         $error  = true;
         $titleErrorMsg = "Title cannot be empty";
     }
-    // check for empty description
-    if(empty($description)){
-        $error = true;
-        $descriptionErrorMsg = "Description cannot be empty";
-    }
 
     global $entities;
     if (!isset($entities)) {
@@ -40,8 +27,9 @@ if(isset($_POST['submit'])) {
     }
 
     $entity = new Entity();
-    $entity->setId($title);
-    $entity->setTitle($description);
+    $entity->setId($id);
+    $id ++;
+    $entity->setTitle($title);
     $entity->setDate('2020-07-20');
     array_push($_SESSION['entities'], $entity);
     echo "You added a new todo";
@@ -58,8 +46,6 @@ if(isset($_POST['submit'])) {
 <form method="post" action="create.php">
     <p>Todo title: </p>
     <input name="todoTitle" type="text">
-    <p>Todo description: </p>
-    <input name="todoDescription" type="text">
     <br>
     <input type="submit" name="submit" value="submit">
 </form>

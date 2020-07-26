@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: mayomi
- * Date: 9/10/17
- * Time: 1:27 PM
- */
+
 require_once "db_connect.php";
 if(isset($_GET['id'])) {
     $id = $_GET['id'];
